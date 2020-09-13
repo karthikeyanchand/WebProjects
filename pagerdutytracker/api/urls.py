@@ -30,5 +30,6 @@ router.register(r'enqueue', views.IncidentViewset)
 
 urlpatterns = [
 	#path('hello/', views.HelloView.as_view(), name='hello'),
-	url(r'', include(router.urls))
+	url(r'', include(router.urls)),
+	
 ]

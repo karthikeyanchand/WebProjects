@@ -18,7 +18,8 @@ from django.urls import path, include
 from rest_framework.schemas import get_schema_view
 from rest_framework.documentation import include_docs_urls
 from rest_framework.authtoken.views import obtain_auth_token
-from rest_framework.authtoken import views
+#from rest_framework.authtoken import views
+from pagerdutytracker.views import IncidentListView
 
 schema_view = get_schema_view(title='PagerDuty API',
                 description='An API to create incideng tickets.')
@@ -28,5 +29,6 @@ urlpatterns = [
     path('events/api/v2/pagerduty/', include('pagerdutytracker.api.urls', 'pagerduty_api')),
     path('schema/', schema_view),
 	path('docs/', include_docs_urls(title='PagerDuty API')),
+	path('',IncidentListView.as_view(), name='view'),
 
 ]

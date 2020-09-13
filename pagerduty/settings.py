@@ -43,6 +43,10 @@ INSTALLED_APPS = [
     'rest_framework',
 #    'rest_framework.authtoken',
 #    'rest_framework_api_key',
+    "django_filters",
+    "bootstrap3",
+    "bootstrap4",
+    "django_tables2",
     'pagerdutytracker.apps.PagerdutytrackerConfig',
 ]
 

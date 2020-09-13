@@ -35,6 +35,10 @@ PyYAML = "*"
 gunicorn = "*"
 django-heroku = "*"
 drf-writable-nested = "*"
+django-tables2 = "*"
+django-bootstrap3 = "*"
+django-filter = "*"
+django-bootstrap4 = "*"
 
 [requires]
 python_version = "3.7"
