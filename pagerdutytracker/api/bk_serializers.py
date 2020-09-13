@@ -6,7 +6,6 @@ import json
 logger = logging.getLogger("mylogger")
 from rest_framework import status
 from rest_framework.response import Response
-from drf_writable_nested.mixins import UniqueFieldsMixin, NestedUpdateMixin, NestedCreateMixin
 
 
 def routing_field_restriction(rk):
@@ -34,7 +33,7 @@ class PayloadSerializer(serializers.ModelSerializer):
 		fields = ('summary', 'source', 'severity', 'timestamp', 'component','group','custom_details','class_name')
 
 
-class IncidentSerializer(UniqueFieldsMixin, NestedUpdateMixin,NestedCreateMixin,serializers.ModelSerializer):
+class IncidentSerializer(serializers.ModelSerializer):
 	
 
 	payload  = PayloadSerializer()
@@ -47,6 +46,34 @@ class IncidentSerializer(UniqueFieldsMixin, NestedUpdateMixin,NestedCreateMixin,
 
 		fields = ('id','routing_key','event_action', 'dedup_key', 'payload', 'links', 'images', 'client', 'client_url')
 
+	def create(self, validated_data):
+		#routing_key = validated_data.pop('routing_key')
+		#dedup_key = validated_data['dedup_key']
+		#validated_data["routing_key"] = routing_key
+		links = validated_data.pop('links',None)
+		images = validated_data.pop('images',None)
+		payload = validated_data.pop('payload')
+		payload_inst = Payload.objects.create(**payload)
+		incident = Incident.objects.create(**validated_data, payload=payload_inst)
+		if links is not None:
+			logger.info("here in list if")
+			for link in links:
+				Link.objects.create(**link,incident=incident)
+		if images is not None:
+			for image in images:
+				Image.objects.create(**image,incident=incident)
+		return incident
+
+  #   def update(self, instance, validated_data):
+		# links = validated_data.pop('links',None)
+		# images = validated_data.pop('images',None)
+		# payload = validated_data.pop('payload')
+
+		# instance.routing_key = validated_data.get('routing_key',instance.routing_key)
+		# instance.event_action = validated_data.get('event_action',instance.routing_key)
+		# instance.routing_key = validated_data.get('routing_key',instance.routing_key)
+		# instance.client = validated_data.get('client',instance.client)
+		# instance.client_url = validated_data.get('routing_key',instance.client_url)
 		
 
 	def destroy(self, request, *args, **kwargs):
@@ -60,5 +87,8 @@ class IncidentSerializer(UniqueFieldsMixin, NestedUpdateMixin,NestedCreateMixin,
 
 	def perform_destroy(self, instance):
 		instance.delete()
+
+
+
 
 

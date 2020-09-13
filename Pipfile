@@ -34,6 +34,7 @@ Pygments = "*"
 PyYAML = "*"
 gunicorn = "*"
 django-heroku = "*"
+drf-writable-nested = "*"
 
 [requires]
 python_version = "3.7"
