@@ -35,7 +35,7 @@ class Payload(models.Model):
     """
     """
 
-    summary         = models.CharField(max_length=100, verbose_name="Title", null=False, blank=False)
+    summary         = models.CharField(max_length=1024, verbose_name="Title", null=False, blank=False)
     source          = models.CharField(max_length=100, verbose_name="Source", null=False, blank=False)
     severity        = models.CharField(max_length=100, choices=INCIDENT_SEVERITY_CHOICES, default='warning', verbose_name="Severity")
     timestamp       = models.CharField(max_length=100, verbose_name="Timestamp",null=False, blank=False)
