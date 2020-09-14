@@ -12,5 +12,5 @@ from pagerdutytracker.tables import PagerSemanticTable
 class IncidentListView(SingleTableView):
     model = Incident
     table_class = PagerSemanticTable
-    table_pagination = {"per_page": 20}
+    table_pagination = {"per_page": 10}
     template_name = 'pagerdutytracker/view.html'
